@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
-// import { TodosModule } from './todos/todos.module';
+import { TodosModule } from './todos/todos.module';
 
 @Module({
-  // imports: [TodosModule],
-  // controllers: [AppController],
-  // providers: [AppService],
+  imports: [TypeOrmModule.forRoot({
+    type: 'sqlite',
+    database: 'todos_database.sqlite',
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    synchronize: true,
+  }), TodosModule],
 })
 
-
 export class AppModule {}
+ 
