@@ -9,7 +9,7 @@ export class TodosService {
         @InjectRepository(Todos)
         private todosRepository: Repository<Todos>,
     ) {}
-    
+
     async findAll(): Promise<Todos[]> {
         return this.todosRepository.find();
     }
@@ -27,6 +27,4 @@ export class TodosService {
     async delete(id: number): Promise<void> {
         await this.todosRepository.delete(id);
     }
-
-
 }
