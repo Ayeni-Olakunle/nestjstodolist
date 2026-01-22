@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from './todos/todos.module';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -9,7 +10,7 @@ import { AuthModule } from './auth/auth.module';
     database: 'todos_database.sqlite',
     entities: [__dirname + '/**/*.entity{.ts,.js}'],
     synchronize: true,
-  }), TodosModule, AuthModule],
+  }), TodosModule, AuthModule, UsersModule],
 })
 
 export class AppModule {}
