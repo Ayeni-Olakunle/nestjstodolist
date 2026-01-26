@@ -1,5 +1,4 @@
-import { Entity } from "typeorm";
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class Auth {;
