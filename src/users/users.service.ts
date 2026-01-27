@@ -7,10 +7,10 @@ import { User } from './users.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
   ) {}
 
-    async createUser(email: string, password: string): Promise<User> {
+    async create(email: string, password: string): Promise<User> {
         const user = this.usersRepository.create({ email, password });
         return this.usersRepository.save(user);
     }
