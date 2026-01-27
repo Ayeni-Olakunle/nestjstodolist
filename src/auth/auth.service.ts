@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
-// const hashPassword = await bcrypt.hash('myPassword', 10);
-// await bcrypt.compare('myPassword', hashPassword);
 
-// @Injectable()
-// export class AuthService {
-//     constructor (
-//         private usersService: UsersService,
-//         private jwtService: JwtService,
-//     ) {}
-// }
+@Injectable()
+export class AuthService {
+    constructor (
+        private usersService: UsersService,
+        private jwtService: JwtService,
+    ) {}
+}
