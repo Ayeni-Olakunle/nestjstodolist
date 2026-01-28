@@ -16,13 +16,13 @@ import { AuthController } from './auth.controller';
     signOptions: { expiresIn: '60m' },
   })],
 
-  controllers: [AuthController],
-
   providers: [
     AuthService,
     LocalStrategy,
     JwtStrategy
   ],
+
+  controllers: [AuthController],
 
 })
 
