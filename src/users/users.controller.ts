@@ -11,4 +11,9 @@ export class UsersController {
         const { email, ...data } = userData;
         return this.usersService.create(email, data);
     }
+
+    @Get(':email')
+    async findByEmail(@Param('email') email: string) {
+        return this.usersService.findByEmail(email);
+    }
 }
