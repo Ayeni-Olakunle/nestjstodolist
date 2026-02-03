@@ -20,7 +20,7 @@ import { AuthService } from './auth/auth.service';
     // UsersModule
 ],
 
-providers: [UsersService, AuthService],
+providers: [AuthService],
 
 })
 
