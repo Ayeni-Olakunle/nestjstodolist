@@ -1,62 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './users.entity';
+import { Injectable } from "@nestjs/common";
+import { User } from "./users.entity";
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
-  ) {}
+  private users: User[] = [
+    { id: 1, name: "John Doe", email: "john.doe@example.com", password: "hashed_password" },
+    { id: 2, name: "Jane Smith", email: "jane.smith@example.com", password: "hashed_password" },
 
-  // CREATE
-  async create(email: string, data: Partial<User>): Promise<User> {
-    const user = this.userRepository.create({
-      email,
-      ...data,
-    });
-    return this.userRepository.save(user);
+  ];
+
+  async findOne(email: string): Promise<User | undefined> {
+    return this.users.find(user => user.email === email);
   }
-
-  async findByEmail(email: string) {
-    return this.userRepository.findOne({
-      where: { email },
-    });
-  }
-
-  // READ (by id)
-  // async findById(id: number): Promise<User> {
-  //   const user = await this.userRepository.findOne({
-  //     where: { id },
-  //   });
-
-  //   if (!user) {
-  //     throw new NotFoundException(`User with id ${id} not found`);
-  //   }
-
-  //   return user;
-  // }
-
-  // UPDATE
-  // async update(
-  //   id: number,
-  //   email?: string,
-  //   data?: Partial<User>,
-  // ): Promise<User> {
-  //   const user = await this.findById(id);
-
-  //   Object.assign(user, {
-  //     ...(email && { email }),
-  //     ...data,
-  //   });
-
-  //   return this.userRepository.save(user);
-  // }
-
-  // DELETE
-  // async remove(id: number): Promise<void> {
-  //   const user = await this.findById(id);
-  //   await this.userRepository.remove(user);
-  // }
+  
 }
