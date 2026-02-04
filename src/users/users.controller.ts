@@ -23,26 +23,26 @@ export class UsersController {
     return this.usersService.create(email, data);
   }
 
-  @Get(':id')
-  async findById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<User> {
-    return this.usersService.findById(id);
-  }
+  // @Get(':id')
+  // async findById(
+  //   @Param('id', ParseIntPipe) id: number,
+  // ): Promise<User> {
+  //   return this.usersService.findById(id);
+  // }
 
-  @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
-    const { email, ...data } = updateUserDto;
-    return this.usersService.update(id, email, data);
-  }
+  // @Put(':id')
+  // async update(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ): Promise<User> {
+  //   const { email, ...data } = updateUserDto;
+  //   return this.usersService.update(id, email, data);
+  // }
 
-  @Delete(':id')
-  async remove(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<void> {
-    await this.usersService.remove(id);
-  }
+  // @Delete(':id')
+  // async remove(
+  //   @Param('id', ParseIntPipe) id: number,
+  // ): Promise<void> {
+  //   await this.usersService.remove(id);
+  // }
 }

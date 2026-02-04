@@ -7,7 +7,7 @@ import { User } from './users.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private userRepository: Repository<User>,
   ) {}
 
   // CREATE
@@ -26,37 +26,37 @@ export class UsersService {
   }
 
   // READ (by id)
-  async findById(id: number): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { id },
-    });
+  // async findById(id: number): Promise<User> {
+  //   const user = await this.userRepository.findOne({
+  //     where: { id },
+  //   });
 
-    if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
-    }
+  //   if (!user) {
+  //     throw new NotFoundException(`User with id ${id} not found`);
+  //   }
 
-    return user;
-  }
+  //   return user;
+  // }
 
   // UPDATE
-  async update(
-    id: number,
-    email?: string,
-    data?: Partial<User>,
-  ): Promise<User> {
-    const user = await this.findById(id);
+  // async update(
+  //   id: number,
+  //   email?: string,
+  //   data?: Partial<User>,
+  // ): Promise<User> {
+  //   const user = await this.findById(id);
 
-    Object.assign(user, {
-      ...(email && { email }),
-      ...data,
-    });
+  //   Object.assign(user, {
+  //     ...(email && { email }),
+  //     ...data,
+  //   });
 
-    return this.userRepository.save(user);
-  }
+  //   return this.userRepository.save(user);
+  // }
 
   // DELETE
-  async remove(id: number): Promise<void> {
-    const user = await this.findById(id);
-    await this.userRepository.remove(user);
-  }
+  // async remove(id: number): Promise<void> {
+  //   const user = await this.findById(id);
+  //   await this.userRepository.remove(user);
+  // }
 }
