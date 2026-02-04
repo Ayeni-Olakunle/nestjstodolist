@@ -24,13 +24,11 @@ export class UsersService {
   }
 
   async createUser(name: string, email: string, password: string): Promise<User> {
-    // Check if user already exists
     const existing = await this.findByEmail(email);
     if (existing) {
       throw new ConflictException('Email already in use');
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = this.userRepository.create({
