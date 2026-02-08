@@ -39,8 +39,8 @@ export class AuthService {
     );
 
     // Optional: return JWT after signup
-    const payload = { sub: user.id, email: user.email };
-    return { access_token: await this.jwtService.signAsync(payload) };
+    const payload = await this.jwtService.signAsync({ sub: user.id, email: user.email });
+    return { access_token: payload, id: user.id, email: user.email, name: user.name};
   }
   
 }
