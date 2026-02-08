@@ -41,4 +41,8 @@ export class UsersService {
 
     return this.userRepository.save(user);
   }
+
+  async findById(id: number): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id } });
+  }
 }
