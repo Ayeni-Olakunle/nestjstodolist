@@ -18,37 +18,35 @@ import { NotFoundException } from '@nestjs/common';
 @Controller('todos')
 @UseGuards(AuthGuard('jwt'))
 export class TodosController {
-  constructor(private readonly todosService: TodosService) {}
-  
-  async findAll(userId: string) {
-  return this.todosService.findAll(parseInt(userId));
-}
+    constructor(private readonly todosService: TodosService) {}
 
-async create(todo: Partial<Todos>) {
-  const newTodo = this.todosService.create(todo, parseInt(todo.userId.toString()));
-  return newTodo;
-}
-
-async update(id: number, userId: string, fields: Partial<Todos>) {
-  const todo = await this.todosService.update(id, parseInt(userId), fields);
-
-  if (!todo) {
-    throw new NotFoundException('Todo not found');
+  @Get()
+  findAll(@Req() req: Request) {
+    return this.todosService.findAll(req.user['id']);
   }
 
-  Object.assign(todo, fields);
-
-  return this.todosService.update(id, parseInt(userId), fields);
-}
-
-async delete(id: number, userId: string) {
-  const todo = await this.todosService.findAll(parseInt(userId)).then(todos => todos.find(t => t.id === id));
-
-  if (!todo) {
-    throw new NotFoundException('Todo not found');
+  @Post()
+  create(@Req() req: Request, @Body() todo: Partial<Todos>) {
+    return this.todosService.create({
+      ...todo,
+      userId: req.user['id'],
+    }, req.user['id']);
   }
 
-  return this.todosService.delete(id, parseInt(userId));
-}
+  @Put(':id')
+  update(
+    @Req() req: Request,
+    @Param('id') id: number,
+    @Body() updatedFields: Partial<Todos>,
+  ) {
+    const userId = req.user['id'];
+    return this.todosService.update(id, userId, updatedFields);
+  }
+
+  @Delete(':id')
+  delete(@Req() req: Request, @Param('id') id: number) {
+    const userId = req.user['id'];
+    return this.todosService.delete(id, userId);
+  }
 
 }
