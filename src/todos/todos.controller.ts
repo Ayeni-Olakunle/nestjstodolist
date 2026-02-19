@@ -1,30 +1,54 @@
-import { Controller, Get, Post, Param, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Put,
+  Delete,
+  UseGuards,
+  Req,
+  Body,
+} from '@nestjs/common';
+
 import { TodosService } from './todos.service';
-import { Body } from '@nestjs/common';
 import { Todos } from './todos.entity';
-
-
+import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
+import { NotFoundException } from '@nestjs/common';
 @Controller('todos')
+@UseGuards(AuthGuard('jwt'))
 export class TodosController {
-    constructor(private readonly todosService: TodosService) {}
+  constructor(private readonly todosService: TodosService) {}
+  
+  async findAll(userId: string) {
+  return this.todosService.findAll(parseInt(userId));
+}
 
-    @Get()
-    async findAll() {
-        return this.todosService.findAll();
-    }
+async create(todo: Partial<Todos>) {
+  const newTodo = this.todosService.create(todo, parseInt(todo.userId.toString()));
+  return newTodo;
+}
 
-    @Post()
-    async create(@Body() todo: Partial<Todos>) {
-        return this.todosService.create(todo);
-    }
+async update(id: number, userId: string, fields: Partial<Todos>) {
+  const todo = await this.todosService.update(id, parseInt(userId), fields);
 
-    @Put(':id')
-    async update(@Param('id') id: number, @Body() updatedFields: Partial<Todos>) {
-        return this.todosService.update(id, updatedFields);
-    }
+  if (!todo) {
+    throw new NotFoundException('Todo not found');
+  }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number) {
-        await this.todosService.delete(id);
-    }
+  Object.assign(todo, fields);
+
+  return this.todosService.update(id, parseInt(userId), fields);
+}
+
+async delete(id: number, userId: string) {
+  const todo = await this.todosService.findAll(parseInt(userId)).then(todos => todos.find(t => t.id === id));
+
+  if (!todo) {
+    throw new NotFoundException('Todo not found');
+  }
+
+  return this.todosService.delete(id, parseInt(userId));
+}
+
 }

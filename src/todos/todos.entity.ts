@@ -10,4 +10,7 @@ export class Todos {
     
     @Column({ default: 'false' })
     isCompleted: string;
+
+    @Column()
+    userId: number;
 }
