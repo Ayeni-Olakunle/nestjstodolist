@@ -32,4 +32,19 @@ export class AuthController {
   async findUserById(@Body('id') id: number) {
     return this.authService.findUserById(id);
   }
+  
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async googleAuth() {
+    // Passport will redirect automatically
+  }
+
+  // Google callback URL
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleAuthRedirect(@Req() req: Request) {
+    return req.user; // this contains { access_token, id, email, name }
+  }
+
 }

@@ -46,5 +46,25 @@ export class AuthService {
   async findUserById(id: number) {
     return this.usersService.findById(id);
   }
+
+
+  async validateGoogleUser(profile: { email: string; name: string }) {
+  let user = await this.usersService.findByEmail(profile.email);
+
+  if (!user) {
+    // Create a new user if it doesn't exist
+    user = await this.usersService.createUser(profile.name, profile.email, Math.random().toString(36)); // random password
+  }
+
+  // Issue JWT
+  const payload = await this.jwtService.signAsync({ sub: user.id, email: user.email });
+  return {
+    access_token: payload,
+    id: user.id,
+    email: user.email,
+    name: user.name,
+  };
+}
+
   
 }
